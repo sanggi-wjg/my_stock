@@ -1,11 +1,14 @@
 [flake8]
 exclude =
+    my_stock/
+    templates/
+    static/
+    venv,
     .git,
     .gitignore,
       *.pot,
     *.py[co],
     __pycache__,
-    venv,
     .env
 
 ignore =
