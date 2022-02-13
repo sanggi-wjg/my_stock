@@ -1,0 +1,6 @@
+[run]
+omit =
+    my_stock/*,
+    manage.py,
+    */migrations/*,
+    */tests/*
