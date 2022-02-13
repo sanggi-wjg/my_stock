@@ -61,8 +61,21 @@ class Sector(models.Model):
         default_permissions = ('add', 'view')
 
 
+class IndustryQuerySet(models.QuerySet):
+
+    def register(self, industry_name: str) -> 'Industry':
+        industry = Industry(industry_name = industry_name)
+        try:
+            industry.full_clean()
+        except ValidationError as e:
+            raise e
+        else:
+            industry.save()
+            return industry
+
+
 class Industry(models.Model):
-    object = models.Manager()
+    objects = IndustryQuerySet.as_manager()
 
     id = models.BigAutoField(primary_key = True)
     industry_name = models.CharField(max_length = 250, unique = True, null = False, blank = False)
@@ -75,7 +88,15 @@ class Industry(models.Model):
 
 
 class StockQuerySet(models.QuerySet):
-    pass
+
+    def register(self, stock: 'Stock') -> 'Stock':
+        try:
+            stock.full_clean()
+        except ValidationError as e:
+            raise e
+        else:
+            stock.save()
+            return stock
 
 
 class StockKospiManger(models.Manager):

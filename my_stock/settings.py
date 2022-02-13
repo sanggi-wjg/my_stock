@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'stocks',
+    'common',
 
     'rest_framework',
     'debug_toolbar',
