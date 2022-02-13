@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 
-from stocks.models import Market
+from stocks.models import Market, Sector
 
 
 class MarketModelTestCase(TestCase):
@@ -34,3 +34,16 @@ class MarketModelTestCase(TestCase):
         # then
         with self.assertRaises(ValidationError):
             Market.objects.register(case_market_name)
+
+
+class SectorModelTestCase(TestCase):
+
+    def test_create_sector_success_case(self):
+        # given
+        case_sector_name = "산업"
+
+        # when
+        sector = Sector.objects.register(case_sector_name)
+
+        # then
+        self.assertEqual(sector.sector_name, case_sector_name)

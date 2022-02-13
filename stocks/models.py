@@ -37,8 +37,8 @@ class Market(models.Model):
 
 class SectorQuerySet(models.QuerySet):
 
-    def register(self, market_name: str) -> 'Sector':
-        sector = Sector(market_name = market_name)
+    def register(self, sector_name: str) -> 'Sector':
+        sector = Sector(sector_name = sector_name)
         try:
             sector.full_clean()
         except ValidationError as e:
@@ -49,7 +49,7 @@ class SectorQuerySet(models.QuerySet):
 
 
 class Sector(models.Model):
-    objects = models.Manager()
+    objects = SectorQuerySet.as_manager()
 
     id = models.BigAutoField(primary_key = True)
     sector_name = models.CharField(max_length = 250, unique = True, null = False, blank = False)
