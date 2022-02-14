@@ -112,9 +112,9 @@ class StockQuerySet(models.QuerySet):
     def register_if_not_exist(self, stock: 'Stock') -> 'Stock':
         try:
             if not stock.stock_code:
-                raise ValidationError(f"Stock's stock_code is empty")
+                raise ValidationError("Stock's stock_code is empty")
             if not stock.stock_name:
-                raise ValidationError(f"Stock's stock_name is empty")
+                raise ValidationError("Stock's stock_name is empty")
 
             return Stock.objects.get(stock_name = stock.stock_name, stock_code = stock.stock_code)
         except Stock.DoesNotExist:
