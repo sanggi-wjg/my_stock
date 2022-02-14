@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -81,33 +81,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'my_stock.wsgi.application'
-
-# Database
-# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE'   : 'django.db.backends.mysql',
-        'NAME'     : 'STOCK',
-        'USER'     : 'root',
-        'HOST'     : '192.168.10.151',
-        'PASSWORD' : 'rootroot',
-        'PORT'     : '33061',
-        'CHARSET'  : 'utf8mb4',
-        'COLLATION': 'utf8mb4_unicode_ci',
-
-        'OPTIONS'  : {
-            'init_command'   : 'SET default_storage_engine=INNODB',
-            'isolation_level': 'repeatable read',
-            # 'read_default_file': '/path/to/my.cnf',
-        },
-
-        'TEST'     : {
-            'CHARSET'  : 'utf8mb4',
-            'COLLATION': 'utf8mb4_unicode_ci',
-        }
-    },
-}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
