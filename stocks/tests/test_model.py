@@ -17,15 +17,13 @@ class MarketModelTestCase(TestCase):
     def tearDown(self) -> None:
         pass
 
-    def test_create_market_success_case(self):
+    def test_validator_validate_allow_market_name_success_case(self):
         # given
         market_name = "KOSPI"
 
         # when
-        market = Market.objects.register(market_name)
-
         # then
-        self.assertEqual(market.market_name, market_name)
+        validate_allow_market_name(market_name)
 
     def test_validator_validate_allow_market_name_failure_case(self):
         # given
@@ -35,6 +33,16 @@ class MarketModelTestCase(TestCase):
         # then
         with self.assertRaises(ValidationError):
             validate_allow_market_name(market_name)
+
+    def test_create_market_success_case(self):
+        # given
+        market_name = "KOSPI"
+
+        # when
+        market = Market.objects.register(market_name)
+
+        # then
+        self.assertEqual(market.market_name, market_name)
 
     def test_create_market_failure_case(self):
         # given
@@ -100,17 +108,14 @@ class StockModelTestCase(TestCase):
         # when
         # then
         with self.assertRaises(ValidationError):
-            Stock.objects.register(Stock(
-                sector = self.sector, industry = self.industry, stock_code = stock_code,
-                stock_name = stock_name)
+            Stock.objects.register(
+                Stock(sector = self.sector, industry = self.industry, stock_code = stock_code, stock_name = stock_name)
             )
         with self.assertRaises(ValidationError):
-            Stock.objects.register(Stock(
-                market = self.market, industry = self.industry, stock_code = stock_code,
-                stock_name = stock_name)
+            Stock.objects.register(
+                Stock(market = self.market, industry = self.industry, stock_code = stock_code, stock_name = stock_name)
             )
         with self.assertRaises(ValidationError):
-            Stock.objects.register(Stock(
-                market = self.market, sector = self.sector, stock_code = stock_code,
-                stock_name = stock_name)
+            Stock.objects.register(
+                Stock(market = self.market, sector = self.sector, stock_code = stock_code, stock_name = stock_name)
             )

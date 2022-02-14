@@ -1,3 +1,5 @@
+from typing import Any
+
 from django.core.exceptions import ValidationError
 from django.db import models
 
@@ -5,6 +7,12 @@ from stocks.validators import validate_allow_market_name
 
 
 class MarketQuerySet(models.QuerySet):
+
+    def register_if_not_exist(self, market_name: str) -> 'Market':
+        try:
+            return Market.objects.get(market_name = market_name)
+        except Market.DoesNotExist:
+            return self.register(market_name)
 
     def register(self, market_name: str) -> 'Market':
         market = Market(market_name = market_name)
@@ -37,6 +45,12 @@ class Market(models.Model):
 
 class SectorQuerySet(models.QuerySet):
 
+    def register_if_not_exist(self, sector_name: str) -> 'Sector':
+        try:
+            return Sector.objects.get(sector_name = sector_name)
+        except Sector.DoesNotExist:
+            return self.register(sector_name)
+
     def register(self, sector_name: str) -> 'Sector':
         sector = Sector(sector_name = sector_name)
         try:
@@ -63,6 +77,12 @@ class Sector(models.Model):
 
 class IndustryQuerySet(models.QuerySet):
 
+    def register_if_not_exist(self, industry_name: str) -> 'Industry':
+        try:
+            return Industry.objects.get(industry_name = industry_name)
+        except Industry.DoesNotExist:
+            return self.register(industry_name)
+
     def register(self, industry_name: str) -> 'Industry':
         industry = Industry(industry_name = industry_name)
         try:
@@ -88,6 +108,17 @@ class Industry(models.Model):
 
 
 class StockQuerySet(models.QuerySet):
+
+    def register_if_not_exist(self, stock: 'Stock') -> 'Stock':
+        try:
+            if not stock.stock_code:
+                raise ValidationError(f"Stock's stock_code is empty")
+            if not stock.stock_name:
+                raise ValidationError(f"Stock's stock_name is empty")
+
+            return Stock.objects.get(stock_name = stock.stock_name, stock_code = stock.stock_code)
+        except Stock.DoesNotExist:
+            return self.register(stock)
 
     def register(self, stock: 'Stock') -> 'Stock':
         try:
