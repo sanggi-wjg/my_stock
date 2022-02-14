@@ -1,11 +1,11 @@
-[![Flake8 Lint & Test](https://github.com/sanggi-wjg/my_stock/actions/workflows/django_ci.yml/badge.svg)](https://github.com/sanggi-wjg/my_stock/actions/workflows/django_ci.yml)
+[![Lint & Test](https://github.com/sanggi-wjg/my_stock/actions/workflows/django_ci.yml/badge.svg)](https://github.com/sanggi-wjg/my_stock/actions/workflows/django_ci.yml)
 
 # My Stock
 
 ## Development Environment
 [![Python 3.10](https://img.shields.io/badge/Python-3.10-blue.svg)](https://www.python.org/downloads/release/python-3102/)
 [![Django 4.0](https://img.shields.io/badge/Django-4.0-blue.svg)](https://docs.djangoproject.com/ko/4.0/)
-[![MySQL 8.0](https://img.shields.io/badge/MySQL-4.0-blue.svg)]()
+[![MySQL 8.0](https://img.shields.io/badge/MySQL-8.0-blue.svg)]()
 
 And python packages
 ```shell
