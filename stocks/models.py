@@ -42,6 +42,9 @@ class Market(models.Model):
         ordering = ('id',)
         default_permissions = ('add', 'view')
 
+    def __str__(self):
+        return f"<Market:{self.id}> {self.market_name}"
+
 
 class SectorQuerySet(models.QuerySet):
 
@@ -74,6 +77,9 @@ class Sector(models.Model):
         indexes = (models.Index(fields = ['sector_name'], name = 'index_sectors_sector_name'),)
         default_permissions = ('add', 'view')
 
+    def __str__(self):
+        return f"<Sector:{self.id}> {self.sector_name}"
+
 
 class IndustryQuerySet(models.QuerySet):
 
@@ -105,6 +111,9 @@ class Industry(models.Model):
         ordering = ('id',)
         indexes = (models.Index(fields = ['industry_name'], name = 'index_industries_industry_name'),)
         default_permissions = ('add', 'view')
+
+    def __str__(self):
+        return f"<Industry:{self.id}> {self.industry_name}"
 
 
 class StockQuerySet(models.QuerySet):

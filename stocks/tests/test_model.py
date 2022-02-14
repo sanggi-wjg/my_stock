@@ -51,7 +51,7 @@ class MarketModelTestCase(TestCase):
         # when
         # then
         with self.assertRaises(ValidationError):
-            Market.objects.register(market_name)
+            Market.objects.register_if_not_exist(market_name)
 
 
 class SectorModelTestCase(TestCase):
@@ -61,7 +61,7 @@ class SectorModelTestCase(TestCase):
         sector_name = "산업"
 
         # when
-        sector = Sector.objects.register(sector_name)
+        sector = Sector.objects.register_if_not_exist(sector_name)
 
         # then
         self.assertEqual(sector.sector_name, sector_name)
@@ -74,7 +74,7 @@ class IndustryModelTestCase(TestCase):
         industry_name = "반도체"
 
         # when
-        industry = Industry.objects.register(industry_name)
+        industry = Industry.objects.register_if_not_exist(industry_name)
 
         # then
         self.assertEqual(industry.industry_name, industry_name)
@@ -83,18 +83,17 @@ class IndustryModelTestCase(TestCase):
 class StockModelTestCase(TestCase):
 
     def setUp(self) -> None:
-        self.market = Market.objects.register("KOSPI")
-        self.sector = Sector.objects.register("반도체, 핸드폰")
-        self.industry = Industry.objects.register("전자기기")
+        self.market = Market.objects.register_if_not_exist("KOSPI")
+        self.sector = Sector.objects.register_if_not_exist("반도체, 핸드폰")
+        self.industry = Industry.objects.register_if_not_exist("전자기기")
 
     def test_create_stock_success_case(self):
         # given
         stock_code, stock_name = "123456", "삼성전자"
 
         # when
-        stock = Stock.objects.register(Stock(
-            market = self.market, sector = self.sector, industry = self.industry, stock_code = stock_code,
-            stock_name = stock_name)
+        stock = Stock.objects.register_if_not_exist(
+            Stock(market = self.market, sector = self.sector, industry = self.industry, stock_code = stock_code, stock_name = stock_name)
         )
 
         # then
@@ -108,14 +107,14 @@ class StockModelTestCase(TestCase):
         # when
         # then
         with self.assertRaises(ValidationError):
-            Stock.objects.register(
+            Stock.objects.register_if_not_exist(
                 Stock(sector = self.sector, industry = self.industry, stock_code = stock_code, stock_name = stock_name)
             )
         with self.assertRaises(ValidationError):
-            Stock.objects.register(
+            Stock.objects.register_if_not_exist(
                 Stock(market = self.market, industry = self.industry, stock_code = stock_code, stock_name = stock_name)
             )
         with self.assertRaises(ValidationError):
-            Stock.objects.register(
+            Stock.objects.register_if_not_exist(
                 Stock(market = self.market, sector = self.sector, stock_code = stock_code, stock_name = stock_name)
             )

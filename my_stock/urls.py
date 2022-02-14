@@ -15,11 +15,26 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework import routers
+
+from stocks import viewsets as stocks
+from users import viewsets as users
+
+router = routers.DefaultRouter()
+router.register(r'users', users.UserViewSet)
+router.register(r'users', users.UserDetailViewSet)
+router.register(r'groups', users.GroupViewSet)
+router.register(r'markets', stocks.MarketViewSet)
+router.register(r'sectors', stocks.SectorViewSet)
+router.register(r'industries', stocks.IndustryViewSet)
+router.register(r'stocks', stocks.StockViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls')),
+    path('api-auth/', include('rest_framework.urls', namespace = 'rest_framework')),
+    path('v1/', include(router.urls)),
 
+    path('users/', include('users.urls')),
     path('stocks/', include('stocks.urls')),
     path('__debug__/', include('debug_toolbar.urls')),
 ]
