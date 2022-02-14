@@ -3,12 +3,12 @@
 # My Stock
 
 ## Development Environment
-```shell
-Django 4.0
-Python 3.10
-MySQL  8.0
+[![Python 3.10](https://img.shields.io/badge/Python-3.10-blue.svg)](https://www.python.org/downloads/release/python-3102/)
+[![Django 4.0](https://img.shields.io/badge/Django-4.0-blue.svg)](https://docs.djangoproject.com/ko/4.0/)
+[![MySQL 8.0](https://img.shields.io/badge/MySQL-4.0-blue.svg)]()
 
-# Python Packages
+And python packages
+```shell
 requriements.txt
 ```
 
