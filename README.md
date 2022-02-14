@@ -29,4 +29,5 @@ python manage.py register_stocks KOSDAQ
 ```shell
 DJANGO_SETTINGS_MODULE=my_stock.settings.local
 ```
+
 ![](docs/docs-1.png)
