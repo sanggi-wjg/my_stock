@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko-kr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="my stock">
+    <meta name="author" content="jayg">
+
+    {% load static %}
+    <link rel="icon" href="{% static '/favicon.ico' %}">
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static '/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="{% static '/vendor/metisMenu/metisMenu.min.css' %}" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link href="{% static '/vendor/datatables/css/dataTables.bootstrap4.css' %}" rel="stylesheet">
+
+    <!-- Social Buttons CSS -->
+    <link href="{% static '/vendor/bootstrap-social/bootstrap-social.css' %}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{% static '/dist/css/sb-admin-2.css' %}" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="{% static '/vendor/morrisjs/morris.css' %}" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="{% static '/vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+
+    <title>{% block page_title %}Stock{% endblock %}</title>
+</head>
+
+
+<body>
+<div id="wrapper">
+    <header class="align-items-start app-header flex-column flex-md-row navbar navbar-expand-md navbar-light">
+        <div class="align-items-baseline d-flex flex-row navbar-brand p-lg-3 pl-3 pr-3 pt-3">
+            <a class="" href="#">Stock</a>
+            <button class="collapsed ml-auto navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#side-menu-wrapper" aria-controls="side-menu" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+
+        <ul class="nav navbar-nav ml-md-auto flex-row navbar-top-links">
+            <li class="nav-item dropdown">
+                {% if user.is_authenticated %}
+                    <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button"
+                       aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-user fa-fw"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-user">
+                        <a class="dropdown-item" href="/member/profile"><i class="fa fa-user fa-fw"></i> User
+                            Profile</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'rest_framework:logout' %}?next=/">
+                            <i class="fa fa-sign-out fa-fw"></i> Logout
+                        </a>
+                    </div>
+                {% else %}
+                    <a class="nav-link nav-link" href="{% url 'rest_framework:login' %}?next={{ request.path }}">Login</a>
+                {% endif %}
+            </li>
+        </ul>
+    </header>
+
+    <div class="d-md-flex">
+        <div class="sidebar" role="navigation">
+            <div class="sidebar-nav collapse navbar-collapse show" id="side-menu-wrapper">
+                <ul class="nav navbar-nav navbar-collapse flex-column side-nav list-group" id="side-menu">
+                    <li class="sidebar-search">
+                        <div class="input-group custom-search-form">
+                            <input type="text" class="form-control" placeholder="Search...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-white" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </li>
+
+                    <li class="list-group-item">
+                        <a href="/"><i class="fa fa-home fa-fw"></i> Home</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="#"><i class="fa fa-upload fa-fw"></i> T001 Upload <span class="fa arrow"></span></a>
+                        <ul class="nav-second-level list-group nested">
+                            <li class="list-group-item">
+                                <a href="/upload"><i class="fa fa-upload"></i> Upload</a>
+                                <a href="/upload/permit"><i class="fa fa-upload"></i> Permit</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="#"><i class="fa fa-bitcoin fa-fw"></i> T001 환율<span class="fa arrow"></span></a>
+                        <ul class="nav-second-level list-group nested">
+                            <li class="list-group-item">
+                                <a href="/exchangeRates"><i class="fa fa-list"></i> 리스트</a>
+                                <a href="/exchangeRate/new"><i class="fa fa-plus"></i> 등록</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="#"><i class="fa fa-bold fa-fw"></i> T002,3 Business units <span
+                                class="fa arrow"></span></a>
+                        <ul class="nav-second-level list-group nested">
+                            <li class="list-group-item">
+                                <a href="/business-units"><i class="fa fa-list"></i> BU 리스트</a>
+                                <a href="/business-unit/new"><i class="fa fa-plus"></i> BU 등록</a>
+
+                                <a href="/categories"><i class="fa fa-list"></i> 코드 카테고리 리스트</a>
+                                <a href="/category/new"><i class="fa fa-plus"></i> 코드 카테고리 등록</a>
+
+                                <a href="/category/values"><i class="fa fa-list"></i> 카테고리 값 리스트</a>
+                                <a href="/category/value/new"><i class="fa fa-plus"></i> 카테고리 값 등록</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="#"><i class="fa fa-bar-chart fa-fw"></i> T004~ 통계<span class="fa arrow"></span></a>
+                        <ul class="nav-second-level list-group nested">
+                            <li class="list-group-item">
+                                <a href="/stat/corp/compare"><i class="fa fa-list"></i> 법인별 실적</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="#"><i class="fa fa-user fa-fw"></i> 유저 <span class="fa arrow"></span></a>
+                        <ul class="nav-second-level list-group nested">
+                            <li class="list-group-item">
+                                <a href="/members"><i class="fa fa-users fa-fw"></i> 리스트</a>
+                                <a href="/member/join"><i class="fa fa-user-plus fa-fw"></i> 신규 유저</a>
+                                <a href="/member/logs"><i class="fa fa-list fa-fw"></i> 유저 로그</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="page-wrapper" class="p-4">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+
+<footer>
+    <!-- jQuery -->
+    <script src="{% static '/vendor/jquery/jquery.min.js' %}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static '/vendor/popper/popper.min.js' %}"></script>
+    <script src="{% static '/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="{% static '/vendor/metisMenu/metisMenu.min.js' %}"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <script src="{% static '/vendor/raphael/raphael.min.js' %}"></script>
+    <script src="{% static '/vendor/morrisjs/morris.min.js' %}"></script>
+    <!-- <script src="data/morris-data.js"></script> -->
+
+    <script src="{% static '/vendor/datatables/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static '/vendor/datatables/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static '/vendor/datatables-responsive/dataTables.responsive.js' %}"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="{% static '/dist/js/sb-admin-2.js' %}"></script>
+</footer>
+
+{% block scripts %}
+{% endblock %}
+
+</body>
+</html>
