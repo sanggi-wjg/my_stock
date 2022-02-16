@@ -17,31 +17,30 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 
-from stocks import viewsets as stock_viewset
-from stocks import views as stock_view
-
-from users import viewsets as user_viewset
-from users import views as user_view
+from users.viewsets import UserViewSet, UserDetailViewSet, GroupViewSet
+from stocks.viewsets import MarketViewSet, SectorViewSet, IndustryViewSet, StockViewSet
 
 from home import views as home_view
+from stocks.views import IndustryStockListAPIView
 
 router = routers.DefaultRouter()
-router.register(r'users', user_viewset.UserViewSet)
-router.register(r'users', user_viewset.UserDetailViewSet)
-router.register(r'groups', user_viewset.GroupViewSet)
-router.register(r'markets', stock_viewset.MarketViewSet)
-router.register(r'sectors', stock_viewset.SectorViewSet)
-router.register(r'industries', stock_viewset.IndustryViewSet)
-router.register(r'stocks', stock_viewset.StockViewSet)
+router.register(r'users', UserViewSet)
+router.register(r'users', UserDetailViewSet)
+router.register(r'groups', GroupViewSet)
+router.register(r'markets', MarketViewSet, basename = 'market')
+router.register(r'sectors', SectorViewSet, basename = 'sector')
+router.register(r'industries', IndustryViewSet, basename = 'industry')
+router.register(r'stocks', StockViewSet, basename = 'stock')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('auth/', include('rest_framework.urls', namespace = 'rest_framework')),
-    path('v1/', include(router.urls)),
+    path('auth/', include('rest_framework.urls', namespace = 'auth')),
+    path('api/v1/', include(router.urls)),
+    path('api/v1/industries/stocks', IndustryStockListAPIView.as_view()),
 
     path("", home_view.HomeView.as_view(), name = 'home'),
-
     path('users/', include('users.urls')),
     path('stocks/', include('stocks.urls')),
+
     path('__debug__/', include('debug_toolbar.urls')),
 ]

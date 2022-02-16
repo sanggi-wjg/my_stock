@@ -1,12 +1,14 @@
 from rest_framework import viewsets, permissions
 
-from stocks.models import Stock, Market, Sector, Industry
+from stocks.models import (
+    Stock, Market, Sector, Industry
+)
 from stocks.serializers import (
     StockSerializer, MarketSerializer, SectorSerializer, IndustrySerializer
 )
 
 
-class MarketViewSet(viewsets.ReadOnlyModelViewSet):
+class MarketViewSet(viewsets.ModelViewSet):
     queryset = Market.objects.all()
     serializer_class = MarketSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -25,6 +27,6 @@ class IndustryViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class StockViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Stock.objects.all()
+    queryset = Stock.objects.prefetch_related('market', 'sector', 'industry').all()
     serializer_class = StockSerializer
     permission_classes = [permissions.IsAuthenticated]

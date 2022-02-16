@@ -25,3 +25,12 @@ class StockSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Stock
         fields = ['market', 'sector', 'industry', 'stock_code', 'stock_name', 'url']
+        depth = 1
+
+
+class IndustryStockSerializer(serializers.ModelSerializer):
+    industry_stocks = serializers.StringRelatedField(many = True, read_only = True)
+
+    class Meta:
+        model = Industry
+        fields = '__all__'

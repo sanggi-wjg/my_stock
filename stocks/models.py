@@ -149,9 +149,9 @@ class Stock(models.Model):
     kospi_object = StockKospiManger()
 
     id = models.BigAutoField(primary_key = True)
-    market = models.ForeignKey(Market, on_delete = models.PROTECT, null = False)
-    sector = models.ForeignKey(Sector, on_delete = models.PROTECT, null = False)
-    industry = models.ForeignKey(Industry, on_delete = models.PROTECT, null = False)
+    market = models.ForeignKey(Market, on_delete = models.PROTECT, null = False, related_name = 'market_stocks')
+    sector = models.ForeignKey(Sector, on_delete = models.PROTECT, null = False, related_name = 'sector_stocks')
+    industry = models.ForeignKey(Industry, on_delete = models.PROTECT, null = False, related_name = 'industry_stocks')
 
     stock_code = models.CharField(max_length = 20, unique = True, null = False, blank = False)
     stock_name = models.CharField(max_length = 100, unique = True, null = False, blank = False)
@@ -171,6 +171,10 @@ class Stock(models.Model):
 
     def __str__(self):
         return f"<Stock:{self.id}> {self.stock_code} {self.stock_name}"
+
+    @property
+    def market_name(self):
+        return self.market.market_name
 
 
 class StockPrice(models.Model):
