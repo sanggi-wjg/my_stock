@@ -17,11 +17,14 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 
-from users.viewsets import UserViewSet, UserDetailViewSet, GroupViewSet
-from stocks.viewsets import MarketViewSet, SectorViewSet, IndustryViewSet, StockViewSet
-
 from home import views as home_view
-from stocks.views import IndustryStockListAPIView
+from stocks.views import (
+    MarketViewSet, SectorViewSet, IndustryViewSet, StockViewSet,
+    IndustryStockListAPIView, IndustryStockDetailAPIView
+)
+from users.views import (
+    UserViewSet, UserDetailViewSet, GroupViewSet
+)
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
@@ -37,6 +40,7 @@ urlpatterns = [
     path('auth/', include('rest_framework.urls', namespace = 'auth')),
     path('api/v1/', include(router.urls)),
     path('api/v1/industries/stocks', IndustryStockListAPIView.as_view()),
+    path('api/v1/industries/<int:pk>/stocks', IndustryStockDetailAPIView.as_view()),
 
     path("", home_view.HomeView.as_view(), name = 'home'),
     path('users/', include('users.urls')),

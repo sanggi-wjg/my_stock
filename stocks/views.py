@@ -2,13 +2,21 @@ from django.shortcuts import render
 from django.http import HttpRequest
 
 from django.views import View
-from rest_framework import status
+from rest_framework import status, pagination, generics
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import viewsets, permissions
 
 from stocks.models import Industry
 from stocks.serializers import IndustryStockSerializer
+
+from stocks.models import (
+    Stock, Market, Sector, Industry
+)
+from stocks.serializers import (
+    StockSerializer, MarketSerializer, SectorSerializer, IndustrySerializer
+)
 
 
 class StockViews(View):
@@ -21,16 +29,36 @@ class StockViews(View):
         })
 
 
-class IndustryStockListAPIView(APIView):
+class MarketViewSet(viewsets.ModelViewSet):
+    queryset = Market.objects.all()
+    serializer_class = MarketSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
-    def get(self, request: Request):
-        industry = Industry.objects.prefetch_related('industry_stocks').all()
-        serializer = IndustryStockSerializer(industry, many = True)
-        return Response(serializer.data, status = status.HTTP_200_OK)
-#
-#     def post(self, request: Request):
-#         serializer = IndustryStockSerializer(data = request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status = status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+
+class SectorViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Sector.objects.all()
+    serializer_class = SectorSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class IndustryViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Industry.objects.all()
+    serializer_class = IndustrySerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class StockViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Stock.objects.prefetch_related('market', 'sector', 'industry').all()
+    serializer_class = StockSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class IndustryStockListAPIView(generics.ListAPIView):
+    queryset = Industry.objects.prefetch_related('industry_stocks').all()
+    serializer_class = IndustryStockSerializer
+    pagination_class = pagination.PageNumberPagination
+
+
+class IndustryStockDetailAPIView(generics.RetrieveAPIView):
+    queryset = Industry.objects.prefetch_related('industry_stocks').all()
+    serializer_class = IndustryStockSerializer

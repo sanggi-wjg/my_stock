@@ -56,15 +56,15 @@
                         <i class="fa fa-user fa-fw"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-user">
-                        <a class="dropdown-item" href="/member/profile"><i class="fa fa-user fa-fw"></i> User
+                        <a class="dropdown-item" href="/user/profile"><i class="fa fa-user fa-fw"></i> User
                             Profile</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{% url 'rest_framework:logout' %}?next=/">
+                        <a class="dropdown-item" href="{% url 'auth:logout' %}?next=/">
                             <i class="fa fa-sign-out fa-fw"></i> Logout
                         </a>
                     </div>
                 {% else %}
-                    <a class="nav-link nav-link" href="{% url 'rest_framework:login' %}?next={{ request.path }}">Login</a>
+                    <a class="nav-link nav-link" href="{% url 'auth:login' %}?next={{ request.path }}">Login</a>
                 {% endif %}
             </li>
         </ul>
@@ -89,54 +89,25 @@
                         <a href="/"><i class="fa fa-home fa-fw"></i> Home</a>
                     </li>
                     <li class="list-group-item">
-                        <a href="#"><i class="fa fa-upload fa-fw"></i> T001 Upload <span class="fa arrow"></span></a>
+                        <a href="{% url 'stocks:index' %}"><i class="fa fa-signal fa-fw"></i> Stock </a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="#"><i class="fa fa-th-large fa-fw"></i> Sector</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="#"><i class="fa fa-th-large fa-fw"></i> Industry</a>
                         <ul class="nav-second-level list-group nested">
                             <li class="list-group-item">
-                                <a href="/upload"><i class="fa fa-upload"></i> Upload</a>
-                                <a href="/upload/permit"><i class="fa fa-upload"></i> Permit</a>
                             </li>
                         </ul>
                     </li>
                     <li class="list-group-item">
-                        <a href="#"><i class="fa fa-bitcoin fa-fw"></i> T001 환율<span class="fa arrow"></span></a>
-                        <ul class="nav-second-level list-group nested">
-                            <li class="list-group-item">
-                                <a href="/exchangeRates"><i class="fa fa-list"></i> 리스트</a>
-                                <a href="/exchangeRate/new"><i class="fa fa-plus"></i> 등록</a>
-                            </li>
-                        </ul>
+                        <a href="#"><i class="fa fa-bar-chart fa-fw"></i> Trend</a>
                     </li>
                     <li class="list-group-item">
-                        <a href="#"><i class="fa fa-bold fa-fw"></i> T002,3 Business units <span
-                                class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-signal fa-fw"></i> Index <span class="fa arrow"></span></a>
                         <ul class="nav-second-level list-group nested">
                             <li class="list-group-item">
-                                <a href="/business-units"><i class="fa fa-list"></i> BU 리스트</a>
-                                <a href="/business-unit/new"><i class="fa fa-plus"></i> BU 등록</a>
-
-                                <a href="/categories"><i class="fa fa-list"></i> 코드 카테고리 리스트</a>
-                                <a href="/category/new"><i class="fa fa-plus"></i> 코드 카테고리 등록</a>
-
-                                <a href="/category/values"><i class="fa fa-list"></i> 카테고리 값 리스트</a>
-                                <a href="/category/value/new"><i class="fa fa-plus"></i> 카테고리 값 등록</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="list-group-item">
-                        <a href="#"><i class="fa fa-bar-chart fa-fw"></i> T004~ 통계<span class="fa arrow"></span></a>
-                        <ul class="nav-second-level list-group nested">
-                            <li class="list-group-item">
-                                <a href="/stat/corp/compare"><i class="fa fa-list"></i> 법인별 실적</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="list-group-item">
-                        <a href="#"><i class="fa fa-user fa-fw"></i> 유저 <span class="fa arrow"></span></a>
-                        <ul class="nav-second-level list-group nested">
-                            <li class="list-group-item">
-                                <a href="/members"><i class="fa fa-users fa-fw"></i> 리스트</a>
-                                <a href="/member/join"><i class="fa fa-user-plus fa-fw"></i> 신규 유저</a>
-                                <a href="/member/logs"><i class="fa fa-list fa-fw"></i> 유저 로그</a>
                             </li>
                         </ul>
                     </li>
